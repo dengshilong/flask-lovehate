@@ -1,7 +1,7 @@
 <div class="starter-template">
     {% for post in posts %}
     <div class="blog-post">
-        <h3><a href="{{ url_for('main.category', category=post.category.name) }}">{{ post.category.name }}</a></h3>
+        <h3 class="blog-post-title"><a href="{{ url_for('main.category', category=post.category.name) }}">{{ post.category.name }}</a></h3>
         <!--<div class="post-date">{{ moment(post.create_time).format('YYYY-M-D H:m') }}</div>-->
         <img class="img-responsive" src="{{ url_for('static', filename=post.photo) }}"/>
     </div>
