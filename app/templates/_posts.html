@@ -1,15 +1,9 @@
-<ul class="posts">
+<div class="starter-template">
     {% for post in posts %}
-    <li class="post">
-        <div class="post-thumbnail">
-        </div>
-        <div class="post-content">
-            <a href="{{ url_for('main.category', category=post.category.name) }}"><h3>{{ post.category.name }}</h3></a>
-            <div class="post-date">{{ moment(post.create_time).fromNow() }}</div>
-            <div class="post-body">
-                <img src="{{ url_for('static', filename=post.photo) }}"/>
-            </div>
-        </div>
-    </li>
+    <div class="blog-post">
+        <h3><a href="{{ url_for('main.category', category=post.category.name) }}">{{ post.category.name }}</a></h3>
+        <!--<div class="post-date">{{ moment(post.create_time).format('YYYY-M-D H:m') }}</div>-->
+        <img class="img-responsive" src="{{ url_for('static', filename=post.photo) }}"/>
+    </div>
     {% endfor %}
-</ul>
+</div>
