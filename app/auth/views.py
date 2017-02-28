@@ -43,7 +43,7 @@ def logout():
 
 @auth.route('/reset', methods=['GET', 'POST'])
 def password_reset_request():
-    if not current_user.is_anonymous:
+    if current_user.is_anonymous:
         return redirect(url_for('main.index'))
     form = PasswordResetRequestForm()
     if form.validate_on_submit():
@@ -61,7 +61,7 @@ def password_reset_request():
 
 @auth.route('/reset/<token>', methods=['GET', 'POST'])
 def password_reset(token):
-    if not current_user.is_anonymous:
+    if current_user.is_anonymous:
         return redirect(url_for('main.index'))
     form = PasswordResetForm()
     if form.validate_on_submit():
