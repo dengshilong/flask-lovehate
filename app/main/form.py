@@ -6,10 +6,9 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired, FileField
 from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, Length
 
 
 class PostForm(FlaskForm):
-    category = StringField(validators=[DataRequired(), Length(1, 64),])
+    category = StringField()
     photo = FileField(validators=[FileRequired()])
     submit = SubmitField('提交')

@@ -4,6 +4,7 @@
         <div class="post-thumbnail">
         </div>
         <div class="post-content">
+            <a href="{{ url_for('main.category', category=post.category.name) }}"><h3>{{ post.category.name }}</h3></a>
             <div class="post-date">{{ moment(post.create_time).fromNow() }}</div>
             <div class="post-body">
                 <img src="{{ url_for('static', filename=post.photo) }}"/>

@@ -7,7 +7,11 @@
 import uuid
 from datetime import datetime
 import os
+
+from app import db
+from app.models import Category
 from manage import app
+
 
 def get_uuid_filename(filename):
     folder = os.path.join(app.config['UPLOAD_DIR'], datetime.now().strftime("%Y/%m/%d"))
@@ -16,3 +20,13 @@ def get_uuid_filename(filename):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
     return os.path.join(folder, filename)
+
+
+def get_default_category():
+    default = '无题'
+    category = Category.query.filter_by(name=default).first()
+    if not category:
+        category = Category(name=default)
+        db.session.add(category)
+        db.session.commit()
+    return category
