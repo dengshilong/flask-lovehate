@@ -65,7 +65,7 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=indexing-exception,old-octal-literal,apply-builtin,old-ne-operator,oct-method,raw_input-builtin,zip-builtin-not-iterating,long-builtin,standarderror-builtin,buffer-builtin,unichr-builtin,dict-iter-method,delslice-method,xrange-builtin,suppressed-message,useless-suppression,parameter-unpacking,dict-view-method,range-builtin-not-iterating,round-builtin,reload-builtin,coerce-builtin,reduce-builtin,file-builtin,backtick,unicode-builtin,intern-builtin,old-raise-syntax,next-method-called,raising-string,getslice-method,print-statement,cmp-builtin,basestring-builtin,coerce-method,unpacking-in-except,metaclass-assignment,nonzero-method,using-cmp-argument,filter-builtin-not-iterating,old-division,long-suffix,setslice-method,cmp-method,import-star-module-level,hex-method,map-builtin-not-iterating,no-absolute-import,execfile-builtin,input-builtin
+disable=indexing-exception,old-octal-literal,apply-builtin,old-ne-operator,oct-method,raw_input-builtin,zip-builtin-not-iterating,long-builtin,standarderror-builtin,buffer-builtin,unichr-builtin,dict-iter-method,delslice-method,xrange-builtin,suppressed-message,useless-suppression,parameter-unpacking,dict-view-method,range-builtin-not-iterating,round-builtin,reload-builtin,coerce-builtin,reduce-builtin,file-builtin,backtick,unicode-builtin,intern-builtin,old-raise-syntax,next-method-called,raising-string,getslice-method,print-statement,cmp-builtin,basestring-builtin,coerce-method,unpacking-in-except,metaclass-assignment,nonzero-method,using-cmp-argument,filter-builtin-not-iterating,old-division,long-suffix,setslice-method,cmp-method,import-star-module-level,hex-method,map-builtin-not-iterating,no-absolute-import,execfile-builtin,input-builtin,missing-docstring,no-member,too-few-public-methods,invalid-name,bare-except
 
 
 [REPORTS]
@@ -193,7 +193,7 @@ max-nested-blocks=5
 [FORMAT]
 
 # Maximum number of characters on a single line.
-max-line-length=100
+max-line-length=120
 
 # Regexp for a line that is allowed to be longer than the limit.
 ignore-long-lines=^\s*(# )?<?https?://\S+>?$

@@ -23,4 +23,6 @@
         language: system
         files: \.py$
         exclude: test_gevent.py
+        exclude: \/migrations\/
+        exclude: \/versions\/
         args: [--rcfile=.pylintrc, --load-plugins=pylint_flask]

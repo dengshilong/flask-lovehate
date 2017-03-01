@@ -14,9 +14,11 @@ from manage import app
 
 
 def get_uuid_filename(filename):
-    folder = os.path.join(app.config['UPLOAD_DIR'], datetime.now().strftime("%Y/%m/%d"))
-    if not os.path.exists(folder):
-        os.makedirs(folder)
+    folder = os.path.join(
+        app.config['UPLOAD_DIR'], datetime.now().strftime("%Y/%m/%d"))
+    path = os.path.join(app.config['STATIC_BASE_DIR'], folder)
+    if not os.path.exists(path):
+        os.makedirs(path)
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
     return os.path.join(folder, filename)
