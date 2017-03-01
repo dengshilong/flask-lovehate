@@ -22,7 +22,8 @@
         entry: pylint
         language: system
         files: \.py$
-        exclude: test_gevent.py
+        exclude: test_*.py
         exclude: \/migrations\/
         exclude: \/versions\/
+        exclude: \/tests\/
         args: [--rcfile=.pylintrc, --load-plugins=pylint_flask]
