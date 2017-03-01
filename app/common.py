@@ -8,15 +8,16 @@ import uuid
 from datetime import datetime
 import os
 
+from flask import current_app
+
 from app import db
 from app.models import Category
-from manage import app
 
 
 def get_uuid_filename(filename):
     folder = os.path.join(
-        app.config['UPLOAD_DIR'], datetime.now().strftime("%Y/%m/%d"))
-    path = os.path.join(app.config['STATIC_BASE_DIR'], folder)
+        current_app.config['UPLOAD_DIR'], datetime.now().strftime("%Y/%m/%d"))
+    path = os.path.join(current_app.config['STATIC_BASE_DIR'], folder)
     if not os.path.exists(path):
         os.makedirs(path)
     ext = filename.split('.')[-1]

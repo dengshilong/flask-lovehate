@@ -1,6 +1,6 @@
 import os
 
-from flask import flash, app
+from flask import flash
 from flask import render_template, request,\
     current_app
 from flask import url_for
@@ -12,7 +12,6 @@ from app.common import get_uuid_filename, get_default_category
 from app.main.form import PostForm
 from . import main
 from ..models import Post, Category
-from manage import app
 
 
 @main.route('/', methods=['GET'])
@@ -34,23 +33,25 @@ def add():
     if form.validate_on_submit():
         f = form.photo.data
         filename = get_uuid_filename(f.filename)
-        f.save(os.path.join(app.config['STATIC_BASE_DIR'], filename))
+        f.save(os.path.join(current_app.config['STATIC_BASE_DIR'], filename))
         if form.category.data:
-            category = Category.query.filter_by(name=form.category.data).first()
+            category = Category.query.filter_by(
+                name=form.category.data).first()
             if not category:
                 category = Category(name=form.category.data.strip())
                 db.session.add(category)
                 db.session.commit()
         else:
             category = get_default_category()
-        post = Post(photo=filename, author_id=current_user.id, category_id=category.id)
+        post = Post(photo=filename, author_id=current_user.id,
+                    category_id=category.id)
         db.session.add(post)
         flash('已记下')
         return redirect(url_for('main.index'))
     return render_template('main/add.html', form=form)
 
 
-@main.route('/category/<category>', methods=['GET',])
+@main.route('/category/<category>', methods=['GET', ])
 def category(category):
     page = request.args.get('page', 1, type=int)
     category = Category.query.filter_by(name=category).first_or_404()
