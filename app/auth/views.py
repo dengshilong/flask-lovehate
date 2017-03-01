@@ -94,6 +94,7 @@ def password_reset(token):
 
 
 @auth.route('/confirm/<token>', methods=['GET', 'POST'])
+@login_required
 def confirm(token):
     if current_user.confirmed:
         return redirect(url_for('main.index'))
