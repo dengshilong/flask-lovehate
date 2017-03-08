@@ -6,7 +6,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired, FileField
 from wtforms import StringField, SubmitField, TextAreaField
-from wtforms.validators import Length
+from wtforms.validators import Length, DataRequired
 
 
 class PostForm(FlaskForm):
@@ -19,4 +19,9 @@ class EditProfileForm(FlaskForm):
     # avatar = FileField('头像')
     location = StringField('城市', validators=[Length(0, 64)])
     about_me = TextAreaField('个人介绍')
+    submit = SubmitField('提交')
+
+
+class CommentForm(FlaskForm):
+    body = StringField('', validators=[DataRequired()])
     submit = SubmitField('提交')

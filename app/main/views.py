@@ -10,9 +10,9 @@ from werkzeug.utils import redirect
 
 from app import db
 from app.common import get_uuid_filename, get_default_category
-from app.main.form import PostForm, EditProfileForm
+from app.main.form import PostForm, EditProfileForm, CommentForm
 from . import main
-from ..models import Post, Category, User
+from ..models import Post, Category, User, Comment
 
 
 @main.route('/', methods=['GET'])
@@ -64,10 +64,26 @@ def category(category):
                            pagination=pagination)
 
 
-@main.route('/love/<int:id>', methods=['GET'])
-def post(id):
+@main.route('/item/<int:id>', methods=['GET', 'POST'])  # pylint: disable=redefined-builtin
+def post(id):  # pylint: disable=redefined-builtin
     post = Post.query.get_or_404(id)
-    return render_template('post.html', posts=[post])
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data, post=post,
+                          author=current_user._get_current_object())  # pylint: disable=protected-access
+        db.session.add(comment)
+        flash('评论已提交')
+        return redirect(url_for('.post', id=post.id, page=-1))
+    page = request.args.get('page', 1, type=int)
+    if page == -1:
+        page = (post.comments.count() - 1) / \
+            current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
+    pagination = post.comments.order_by(Comment.create_time.asc()).paginate(
+        page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+        error_out=False)
+    comments = pagination.items
+    return render_template('post.html', posts=[post], form=form,
+                           comments=comments, pagination=pagination)
 
 
 @main.route('/user/<username>')
@@ -75,7 +91,8 @@ def user(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         abort(404)
-    posts = Post.query.filter_by(author_id=user.id).order_by(Post.create_time.desc()).all()
+    posts = Post.query.filter_by(author_id=user.id).order_by(
+        Post.create_time.desc()).all()
     return render_template('user.html', user=user, posts=posts)
 
 
@@ -137,8 +154,8 @@ def followers(username):
     follows = [{'user': item.follower, 'create_time': item.create_time}
                for item in pagination.items]
     return render_template('followers.html', user=user, title="关注我的人",
-                       endpoint='.followers', pagination=pagination,
-                       follows=follows)
+                           endpoint='.followers', pagination=pagination,
+                           follows=follows)
 
 
 @main.route('/followed_by/<username>')
@@ -156,5 +173,3 @@ def followed_by(username):
     return render_template('followers.html', user=user, title="我关注的人",
                            endpoint='.followed_by', pagination=pagination,
                            follows=follows)
-
-
