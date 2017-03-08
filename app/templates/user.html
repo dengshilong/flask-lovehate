@@ -18,10 +18,12 @@
     注册于{{ moment(user.member_since).format('L') }}.
     上一次登录{{ moment(user.last_seen).format('L') }}.
     </p>
-    {% if not current_user.is_following(user) %}
-        <a href="{{ url_for('.follow', username=user.username) }}" class="btn btn-primary">关注</a>
-    {% else %}
-        <a href="{{ url_for('.unfollow', username=user.username) }}" class="btn btn-default">取消关注</a>
+    {% if current_user.is_authenticated %}
+        {% if not current_user.is_following(user) %}
+            <a href="{{ url_for('.follow', username=user.username) }}" class="btn btn-primary">关注</a>
+        {% else %}
+            <a href="{{ url_for('.unfollow', username=user.username) }}" class="btn btn-default">取消关注</a>
+        {% endif %}
     {% endif %}
     <a href="{{ url_for('.followers', username=user.username) }}">
         关注我的人: <span class="badge">{{ user.followers.count() }}</span>
