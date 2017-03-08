@@ -17,6 +17,7 @@ class Config:
     FLASKY_POSTS_PER_PAGE = 20
     UPLOAD_DIR = 'upload'
     STATIC_BASE_DIR = os.path.join(basedir, 'app/static')
+    FLASKY_FOLLOWERS_PER_PAGE = 50
 
     @staticmethod
     def init_app(app):
