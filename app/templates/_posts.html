@@ -7,7 +7,7 @@
             <a href="{{ url_for('.user', username=post.author.username) }}"> {{ post.author.username }}
             </a>
         </div>
-        <a href="{{ url_for('static', filename=post.photo) }}"><img class="img-responsive" src="{{ url_for('static', filename=post.photo) }}"/></a>
+        <a href="{{ url_for('.post', id=post.id) }}"><img class="img-responsive" src="{{ url_for('static', filename=post.photo) }}"/></a>
     </div>
     {% endfor %}
 </div>

@@ -64,6 +64,12 @@ def category(category):
                            pagination=pagination)
 
 
+@main.route('/love/<int:id>', methods=['GET'])
+def post(id):
+    post = Post.query.get_or_404(id)
+    return render_template('post.html', posts=[post])
+
+
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first()
@@ -133,7 +139,6 @@ def followers(username):
     return render_template('followers.html', user=user, title="关注我的人",
                        endpoint='.followers', pagination=pagination,
                        follows=follows)
-
 
 
 @main.route('/followed_by/<username>')
