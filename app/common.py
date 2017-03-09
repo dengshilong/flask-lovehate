@@ -7,6 +7,7 @@
 import uuid
 from datetime import datetime
 import os
+import math
 
 from PIL import Image
 from flask import current_app
@@ -44,7 +45,7 @@ def generate_thumbnail(filename):
             return
         rate = im.size[0] * im.size[1] / \
             current_app.config['THUMBNAIL_THRESHOLD']
-        size = (im.size[0] / rate, im.size[1] / rate)
+        size = (im.size[0] / math.sqrt(rate), im.size[1] / math.sqrt(rate))
         im.thumbnail(size)
         im.save(outfile)
     except IOError as error:
