@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 import bleach as bleach
@@ -126,6 +127,14 @@ class Post(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+
+    @property
+    def thumbnail(self):
+        if os.path.exists(os.path.join(current_app.config['STATIC_BASE_DIR'], current_app.config['THUMBNAIL_DIR'],
+                                       self.photo)):
+            return os.path.join(current_app.config['THUMBNAIL_DIR'], self.photo)
+        else:
+            return os.path.join(current_app.config['UPLOAD_DIR'], self.photo)
 
 
 class Category(db.Model):

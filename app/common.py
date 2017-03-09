@@ -8,6 +8,7 @@ import uuid
 from datetime import datetime
 import os
 
+from PIL import Image
 from flask import current_app
 
 from app import db
@@ -15,14 +16,36 @@ from app.models import Category
 
 
 def get_uuid_filename(filename):
-    folder = os.path.join(
-        current_app.config['UPLOAD_DIR'], datetime.now().strftime("%Y/%m/%d"))
-    path = os.path.join(current_app.config['STATIC_BASE_DIR'], folder)
+    folder = datetime.now().strftime("%Y/%m/%d")
+    path = os.path.join(current_app.config['STATIC_BASE_DIR'], current_app.config[
+                        'UPLOAD_DIR'], folder)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    path = os.path.join(current_app.config['STATIC_BASE_DIR'], current_app.config[
+                        'THUMBNAIL_DIR'], folder)
     if not os.path.exists(path):
         os.makedirs(path)
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
     return os.path.join(folder, filename)
+
+
+def generate_thumbnail(filename):
+    origin = os.path.join(current_app.config['STATIC_BASE_DIR'], current_app.config[
+                          'UPLOAD_DIR'], filename)
+    outfile = os.path.join(current_app.config['STATIC_BASE_DIR'], current_app.config[
+                           'THUMBNAIL_DIR'], filename)
+    try:
+        im = Image.open(origin)
+        if im.size[0] * im.size[1] <= current_app.config['THUMBNAIL_THRESHOLD']:
+            return
+        size = (im.size[0] / current_app.config['THUMBNAIL_RATE'],
+                im.size[1] / current_app.config['THUMBNAIL_RATE'])
+        im.thumbnail(size)
+        im.save(outfile)
+    except IOError as error:
+        print("cannot create thumbnail for", origin)
+        print(error)
 
 
 def get_default_category():

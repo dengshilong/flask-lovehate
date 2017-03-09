@@ -9,7 +9,7 @@ from flask_login import login_required
 from werkzeug.utils import redirect
 
 from app import db
-from app.common import get_uuid_filename, get_default_category
+from app.common import get_uuid_filename, get_default_category, generate_thumbnail
 from app.main.form import PostForm, EditProfileForm, CommentForm
 from . import main
 from ..models import Post, Category, User, Comment
@@ -34,7 +34,9 @@ def add():
     if form.validate_on_submit():
         f = form.photo.data
         filename = get_uuid_filename(f.filename)
-        f.save(os.path.join(current_app.config['STATIC_BASE_DIR'], filename))
+        f.save(os.path.join(current_app.config[
+               'STATIC_BASE_DIR'], current_app.config['UPLOAD_DIR'], filename))
+        generate_thumbnail(filename)
         if form.category.data:
             category = Category.query.filter_by(
                 name=form.category.data).first()
@@ -176,3 +178,20 @@ def followed_by(username):
     return render_template('followers.html', user=user, title="我关注的人",
                            endpoint='.followed_by', pagination=pagination,
                            follows=follows)
+
+
+@main.route('/modify_photo')
+def modify_photo():
+    """add thumbnail to post"""
+    posts = Post.query.all()
+    for post in posts:
+        filename = post.photo
+        print(filename)
+        if post.photo.startswith(current_app.config['UPLOAD_DIR']):
+            filename = '/'.join(post.photo.split('/')[1:])
+            post.photo = filename
+            db.session.add(post)
+            db.session.commit()
+        print(filename)
+        generate_thumbnail(filename)
+    abort(404)

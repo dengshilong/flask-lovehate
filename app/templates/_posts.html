@@ -12,7 +12,7 @@
                 </span>
             </a>
         </div>
-        <a href="{{ url_for('.post', id=post.id) }}"><img class="img-responsive" src="{{ url_for('static', filename=post.photo) }}"/></a>
+        <a href="{{ url_for('.post', id=post.id) }}"><img class="img-responsive" src="{{ url_for('static', filename=post.thumbnail) }}"/></a>
     </div>
     {% endfor %}
 </div>

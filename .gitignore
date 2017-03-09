@@ -3,4 +3,5 @@
 *.sqlite
 *.swp
 app/static/upload
+app/static/thumbnail
 *.env
