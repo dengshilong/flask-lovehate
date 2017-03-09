@@ -42,8 +42,9 @@ def generate_thumbnail(filename):
         im = Image.open(origin)
         if im.size[0] * im.size[1] <= current_app.config['THUMBNAIL_THRESHOLD']:
             return
-        size = (im.size[0] / current_app.config['THUMBNAIL_RATE'],
-                im.size[1] / current_app.config['THUMBNAIL_RATE'])
+        rate = im.size[0] * im.size[1] / \
+            current_app.config['THUMBNAIL_THRESHOLD']
+        size = (im.size[0] / rate, im.size[1] / rate)
         im.thumbnail(size)
         im.save(outfile)
     except IOError as error:

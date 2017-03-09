@@ -20,7 +20,6 @@ class Config:
     FLASKY_FOLLOWERS_PER_PAGE = 50
     FLASKY_COMMENTS_PER_PAGE = 20
     THUMBNAIL_DIR = 'thumbnail'
-    THUMBNAIL_RATE = 2
     THUMBNAIL_THRESHOLD = 360000
 
     @staticmethod
