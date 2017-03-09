@@ -35,6 +35,9 @@ def generate_thumbnail(filename):
                           'UPLOAD_DIR'], filename)
     outfile = os.path.join(current_app.config['STATIC_BASE_DIR'], current_app.config[
                            'THUMBNAIL_DIR'], filename)
+    folder = '/'.join(outfile.split('/')[:-1])
+    if not os.path.exists(folder):
+        os.makedirs(folder)
     try:
         im = Image.open(origin)
         if im.size[0] * im.size[1] <= current_app.config['THUMBNAIL_THRESHOLD']:
