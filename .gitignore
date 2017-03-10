@@ -5,3 +5,5 @@
 app/static/upload
 app/static/thumbnail
 *.env
+.coverage
+.coveragerc

@@ -43,6 +43,7 @@ class User(UserMixin, db.Model):
                                 lazy='dynamic',
                                 cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
+    is_administrator = db.Column(db.Boolean(), default=False)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
