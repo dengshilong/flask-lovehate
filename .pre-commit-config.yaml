@@ -26,4 +26,5 @@
         exclude: \/migrations\/
         exclude: \/versions\/
         exclude: \/tests\/
+        exclude: fabfile.py
         args: [--rcfile=.pylintrc, --load-plugins=pylint_flask]
