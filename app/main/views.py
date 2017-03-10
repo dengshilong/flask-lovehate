@@ -80,7 +80,7 @@ def post(id):  # pylint: disable=redefined-builtin
     if page == -1:
         page = (post.comments.count() - 1) / \
             current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
-    pagination = post.comments.order_by(Comment.create_time.asc()).paginate(
+    pagination = post.comments.filter_by(disabled=False).order_by(Comment.create_time.asc()).paginate(
         page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
         error_out=False)
     comments = pagination.items
@@ -195,3 +195,36 @@ def modify_photo():
         print(filename)
         generate_thumbnail(filename)
     abort(404)
+
+
+@main.route('/comments')
+def comments():
+    page = request.args.get('page', 1, type=int)
+    if current_user.is_administrator:
+        comments = Comment.query.order_by(Comment.create_time.desc())
+    else:
+        comments = Comment.query.filter_by(
+            disabled=False).order_by(Comment.create_time.desc())
+    pagination = comments.paginate(page,
+                                   per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'], error_out=False)
+    comments = pagination.items
+    return render_template('comments.html', comments=comments, pagination=pagination, page=page,
+                           is_administrator=current_user.is_administrator)
+
+
+@main.route('/moderate/enable/<int:id>')
+@login_required
+def moderate_enable(id):  # pylint: disable=redefined-builtin
+    comment = Comment.query.get_or_404(id)
+    comment.disabled = False
+    db.session.add(comment)
+    return redirect(url_for('.comments', page=request.args.get('page', 1, type=int)))
+
+
+@main.route('/moderate/disable/<int:id>')
+@login_required
+def moderate_disable(id):  # pylint: disable=redefined-builtin
+    comment = Comment.query.get_or_404(id)
+    comment.disabled = True
+    db.session.add(comment)
+    return redirect(url_for('.comments', page=request.args.get('page', 1, type=int)))
