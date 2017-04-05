@@ -7,3 +7,4 @@ app/static/thumbnail
 *.env
 .coverage
 .coveragerc
+*.log

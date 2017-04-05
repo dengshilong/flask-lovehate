@@ -1,3 +1,7 @@
+import logging
+from logging import Formatter
+from logging.handlers import RotatingFileHandler
+
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
@@ -41,5 +45,14 @@ def create_app(config_name):
 
     from .api.auth import api_bp as api_auth_bp
     app.register_blueprint(api_auth_bp, url_prefix='/api/auth')
+
+    file_handler = RotatingFileHandler("lovehate.log")
+    file_handler.setLevel(logging.INFO)
+    file_handler.setFormatter(Formatter(
+        '%(asctime)s %(levelname)s: %(message)s '
+        '[in %(pathname)s:%(lineno)d]'
+    ))
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
 
     return app
