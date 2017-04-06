@@ -11,14 +11,14 @@ from werkzeug.utils import redirect
 from app import db
 from app.common import get_uuid_filename, get_default_category, generate_thumbnail
 from app.main.form import PostForm, EditProfileForm, CommentForm
-from manage import APP
+from manage import app
 from . import main
 from ..models import Post, Category, User, Comment
 
 
 @main.route('/', methods=['GET'])
 def index():
-    APP.logger.info("index")
+    app.logger.info("index")
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.order_by(Post.create_time.desc()).paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],

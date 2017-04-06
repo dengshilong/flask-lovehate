@@ -47,12 +47,11 @@ def create_app(config_name):
     app.register_blueprint(api_auth_bp, url_prefix='/api/auth')
 
     file_handler = RotatingFileHandler("lovehate.log")
-    file_handler.setLevel(logging.INFO)
+    file_handler.setLevel(logging.WARNING)
     file_handler.setFormatter(Formatter(
         '%(asctime)s %(levelname)s: %(message)s '
         '[in %(pathname)s:%(lineno)d]'
     ))
     app.logger.addHandler(file_handler)
-    app.logger.setLevel(logging.INFO)
 
     return app
