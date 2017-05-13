@@ -1,0 +1,30 @@
+<ul class="comments">
+    {% for comment in comments %}
+    <li class="comment">
+        <div class="comment-thumbnail">
+            <a href="{{ url_for('.user', username=comment.author.username) }}">
+            </a>
+        </div>
+        <div class="comment-content">
+            <div class="comment-date">{{ moment(comment.create_time).format('YYYY-M-D H:m') }} | <a href="{{ url_for('.post', id=comment.post_id) }}">原文传送门</a></div>
+            <div class="comment-author"><a href="{{ url_for('.user', username=comment.author.username) }}">{{ comment.author.username }}</a></div>
+            <div class="comment-body">
+                {% if comment.body_html %}
+                    {{ comment.body_html | safe }}
+                {% else %}
+                    {{ comment.body }}
+                {% endif %}
+                <br>
+            </div>
+        </div>
+        {% if is_administrator %}
+            <br>
+            {% if comment.disabled %}
+                <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_enable', id=comment.id, page=page) }}">通过</a>
+            {% else %}
+                <a class="btn btn-default btn-xs" href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">不通过</a>
+            {% endif %}
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>

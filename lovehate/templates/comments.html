@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block title %}爱与生的苦恼 - 所有评论{% endblock %}
+{% block page_content %}
+<div class="page-header"> <h1> {{ comments|length }}条评论</h1>
+</div>
+{% include '_comments.html' %} {% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.comments') }}
+</div>
+{% endif %}
+{% endblock %}

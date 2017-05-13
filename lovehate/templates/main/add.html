@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}爱与生的苦恼－记下此刻心情{% endblock %}
+
+{% block page_content %}
+<div class="starter-template">
+    <!--<form class="form-post-create" id="sub-form" role="form" action="" enctype="multipart/form-data" method="post">-->
+        <!--{{ form.hidden_tag() }}-->
+        <!--{{ form.category }}-->
+        <!--{{ form.photo }}-->
+        <!--{% for error in form.photo.errors %}-->
+            <!--<span style="color: red;">{{ error }}</span>-->
+        <!--{% endfor %}-->
+        <!--{{ form.submit }}-->
+    <!--</form>-->
+    <h1>记下此刻心情</h1>
+    <form class="form-post-create" id="sub-form" role="form" action="" enctype="multipart/form-data" method="post">
+        {{ form.hidden_tag() }}
+        <input type="text" name="category" class="form-control" placeholder="说点什么" autofocus>
+        <input type="file" name="photo" class="form-control" required></input>
+        {% for error in form.photo.errors %}
+            <span style="color: red;">{{ error }}</span>
+        {% endfor %}
+        <button id="sub-btn"  class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+
+    </form>
+    <script>
+        (function(win){
+            document.getElementById('sub-form').addEventListener('submit', function() {
+                document.getElementById('sub-btn').disabled = 'disabled'
+            })
+        })(window)
+    </script>
+</div>
+{% endblock %}

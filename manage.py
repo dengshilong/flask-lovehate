@@ -9,8 +9,8 @@ if os.path.exists('.env'):
         var = line.strip().split('=')
         if len(var) == 2:
             os.environ[var[0]] = var[1]
-from app import create_app, db
-from app.models import User, Post, Category
+from lovehate import create_app, db
+from lovehate.models import User, Post, Category
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
