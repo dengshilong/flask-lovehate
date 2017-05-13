@@ -47,6 +47,10 @@ def generate_thumbnail(filename):
             current_app.config['THUMBNAIL_THRESHOLD']
         size = (im.size[0] / math.sqrt(rate), im.size[1] / math.sqrt(rate))
         im.thumbnail(size)
+        if hasattr(im, '_getexif'):
+            exif = im._getexif()  # pylint: disable=protected-access
+            if exif.get(274, 1) == 6:  # 如果是横着的照片
+                im = im.transpose(Image.ROTATE_270)
         im.save(outfile)
     except IOError as error:
         print("cannot create thumbnail for", origin)
