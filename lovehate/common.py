@@ -49,7 +49,7 @@ def generate_thumbnail(filename):
         im.thumbnail(size)
         if hasattr(im, '_getexif'):
             exif = im._getexif()  # pylint: disable=protected-access
-            if exif.get(274, 1) == 6:  # 如果是横着的照片
+            if exif and exif.get(274, 1) == 6:  # 如果是横着的照片
                 im = im.transpose(Image.ROTATE_270)
         im.save(outfile)
     except IOError as error:
